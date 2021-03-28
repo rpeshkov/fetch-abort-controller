@@ -33,14 +33,11 @@
         return controller;
       }
       fetchButton.addEventListener("click", () => {
-        console.log("fetch");
-
         controller = fetchData();
       });
 
       abortButton.addEventListener("click", () => {
         controller.abort();
-        console.log("abort");
       });
     </script>
   </body>
