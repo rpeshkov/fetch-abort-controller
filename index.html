@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Abort controller</title>
+  </head>
+  <body>
+    <button class="fetch">Fetch</button>
+    <button class="abort">Abort</button>
+
+    <div class="status"></div>
+
+    <script>
+      const fetchButton = document.querySelector(".fetch");
+      const abortButton = document.querySelector(".abort");
+      const status = document.querySelector(".status");
+
+      let controller;
+
+      function fetchData() {
+        status.innerText = "Fetching...";
+        const controller = new AbortController();
+        const signal = controller.signal;
+
+        fetch("/api", { signal })
+          .then((x) => {
+            console.log(x);
+            status.innerText = "Finished";
+          })
+          .catch(() => {
+            status.innerText = "Aborted";
+          });
+
+        return controller;
+      }
+      fetchButton.addEventListener("click", () => {
+        console.log("fetch");
+
+        controller = fetchData();
+      });
+
+      abortButton.addEventListener("click", () => {
+        controller.abort();
+        console.log("abort");
+      });
+    </script>
+  </body>
+</html>
